@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>countdown</title>
+    <style>
+        .divt {
+            width: 100%;
+            height: 90%;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .divb {
+            background-color: white;
+
+            height: 10%;
+            width: 100%;
+        }
+
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .btn1 {
+            position: absolute;
+            left: 45%;
+            top: 10vh;
+            height: 25px;
+            width: 30px;
+            background: url(icon1.png)no-repeat;
+            background-size: 95%;
+            border: none;
+        }
+
+        .btn2 {
+            position: absolute;
+            left: 50%;
+            top: 10vh;
+            height: 25px;
+            width: 30px;
+            background: url(icon2.png)no-repeat;
+            background-size: 100%;
+            border: none;
+
+        }
+
+        .btn3 {
+            position: absolute;
+            left: 55%;
+            top: 10vh;
+            height: 25px;
+            width: 30px;
+            background: url(icon3.png)no-repeat;
+            background-size: 95%;
+            border: none;
+        }
+
+        .timerbox {
+            position: absolute;
+            left: 20%;
+            top: 20vh;
+            height: 200px;
+            width: 60%;
+        }
+
+        .timer {
+            margin-left: 10vw;
+            margin-top: 10vh;
+            height: 70%;
+            width: 100%;
+            color: white;
+            font-size: 100px;
+            border: none;
+
+        }
+
+        .timerselect {
+            margin-left: 30vw;
+            margin-top: 5vh;
+            height: 15%;
+            width: 20%;
+        }
+
+        .timerbtn {
+            height: 15%;
+            width: 30%;
+            border: none;
+            margin-left: 30vw;
+            margin-top: 5vh;
+
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="divt">
+        <img src="背景2.png">
+    </div>
+    <button class="btn1"></button>
+    <button class="btn2"></button>
+    <button class="btn3"></button>
+    <div class="divb"></div>
+    <div class="timerbox" >
+        <input class="timer" style="BACKGROUND-COLOR: transparent;" id="countdown" />
+        <select name="选择时间段" class="timerselect" id="time" onchange="timechange()">
+            <option value="0">请选择时间</option>
+            <option value="01">01:00</option>
+            <option value="60">60:00</option>
+        </select>
+        <button class="timerbtn" id="btn" onclick="start()">开始</button>
+
+        <script>
+             var minute, second;//全局变量放到最前面，便于阅读
+            function timechange() {
+                clearInterval(int1);
+                var countdown = document.getElementById("countdown");
+                var index = document.getElementById("time").selectedIndex;
+                var text = document.getElementById("time").options[index].value;
+                var text1 = document.getElementById("time").options[index].text;
+                 countdown.value = text1;//改变countdown的值
+                 //countdown.setAttribute("value",text1);//这个不能
+                minute = text - 1; second = 59;
+
+            }
+           
+            var index = document.getElementById("time").selectedIndex;
+            var text = document.getElementById("time").options[index].value;
+
+
+            //second = 59; minute = text;
+
+            var millisecond = 0;
+            var int1;
+            var num=2;
+            function start() {
+                if(num==2){
+                    num--;
+                    if (int1!==null) clearInterval(int1);//如果已有计时器先顶掉。
+                    int1 = setInterval(timer, 50);//每隔50毫秒执行一次timer函数
+                }
+                else if(num==1){
+                    var btn=document.getElementById("btn");
+                    btn.innerHTML="放弃";
+                    clearInterval(int1);
+                }
+            }
+            //计时函数
+            function timer() {
+                millisecond = millisecond + 50;
+                if (millisecond >= 1000) {
+                    millisecond = 0;
+                    second = second - 1;
+                }
+                if (second <= 9) {
+                    second = "0" + parseInt(second);
+
+                }
+                if (minute <= 9) {
+                    minute = "0" + parseInt(minute);
+
+                }
+                if (minute != 0 && second <= 0) {
+                    second = 59;
+                    minute = minute - 1;
+                }
+
+                if (minute <= 0) {
+                    minute =  "0" + parseInt(minute);
+
+                }
+                if (minute == 0 && second == 0) {
+                    //second =  "0" + parseInt(second);
+                    clearInterval(int1);//停止计时器
+                }
+                document.getElementById('countdown').value = minute + ':' + second;
+
+            }
+
+
+
+
+        </script>
+    </div>
+</body>
+
+</html>
